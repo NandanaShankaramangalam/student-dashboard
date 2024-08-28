@@ -17,7 +17,6 @@ const Table = ({ selectedClass }) => {
             },
           }
         );
-        console.log("res=", response?.data);
         setData(response.data);
         setLoading(false);
       } catch (error) {
