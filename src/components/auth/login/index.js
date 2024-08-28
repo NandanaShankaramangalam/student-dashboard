@@ -11,29 +11,24 @@ const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!isSigningIn) {
-      setIsSigningIn(true);
-      await doSignInWithEmailAndPassword(email, password);
-      // doSendEmailVerification()
-    }
-  };
-
-  //   const onGoogleSignIn = (e) => {
-  //     e.preventDefault();
-  //     if (!isSigningIn) {
-  //       setIsSigningIn(true);
-  //       doSignInWithGoogle().catch((err) => {
-  //         setIsSigningIn(false);
-  //       });
-  //     }
-  //   };
-
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (!isSigningIn) {
+        setIsSigningIn(true);
+        try {
+            await doSignInWithEmailAndPassword(email, password);
+            setErrorMessage("");
+        } catch (error) {
+            setErrorMessage(error.message || "An error occurred during sign-in");
+        } finally {
+            setIsSigningIn(false);
+        }
+        }
+    };
+  
   return (
     <div>
-      {/* {userLoggedIn && <Navigate to={"/home"} replace={true} />} */}
-      {userLoggedIn && <Navigate to={"/dashboard"} replace={true} />}
+      {userLoggedIn && <Navigate to={"/home/dashboard"} replace={true} />}
 
       <main className="w-full h-screen flex self-center place-content-center place-items-center">
         <div className="w-96 text-gray-600 space-y-5 p-4 shadow-xl border rounded-xl">
@@ -85,26 +80,14 @@ const Login = () => {
               className={`w-full px-4 py-2 text-white font-medium rounded-lg ${
                 isSigningIn
                   ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-indigo-600 hover:bg-indigo-700 hover:shadow-xl transition duration-300"
+                  : "bg-yellow-500 hover:bg-yellow-600 hover:shadow-xl transition duration-300"
               }`}
             >
               {isSigningIn ? "Signing In..." : "Sign In"}
             </button>
           </form>
-          {/* <p className="text-center text-sm">
-            Don't have an account?{" "}
-            <Link to={"/register"} className="hover:underline font-bold">
-              Sign up
-            </Link>
-          </p> */}
-          {/* <div className="flex flex-row text-center w-full">
-            <div className="border-b-2 mb-2.5 mr-2 w-full"></div>
-            <div className="text-sm font-bold w-fit">OR</div>
-            <div className="border-b-2 mb-2.5 ml-2 w-full"></div>
-          </div> */}
         </div>
       </main>
-      {/* <h1>uyguyguhgug</h1> */}
     </div>
   );
 };
